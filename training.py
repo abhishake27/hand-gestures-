@@ -3,7 +3,6 @@ from keras.models import Model
 from keras.layers import Dense,Flatten
 from keras.preprocessing.image import ImageDataGenerator
 from keras.optimizers import Adam
-import matplotlib.pyplot as plt
 
 image_size = [224,224]
 
@@ -15,7 +14,7 @@ for layer in vgg.layers:
 
 
 flatten = Flatten()
-new_layer = Dense(4,activation='softmax')(flatten(vgg.output))
+new_layer = Dense(3,activation='softmax')(flatten(vgg.output))
 
 
 MyModel = Model(inputs=vgg.input, outputs=new_layer)
@@ -42,18 +41,6 @@ r=MyModel.fit_generator(
   steps_per_epoch=len(train_data),
   validation_steps=len(valid_data)
 )
-plt.plot(r.history['loss'], label='train loss')
-plt.plot(r.history['val_loss'], label='val loss')
-plt.legend()
-plt.show()
-#plt.savefig('LossVal_loss')
-
-# accuracies
-plt.plot(r.history['accuracy'], label='train acc')
-plt.plot(r.history['val_accuracy'], label='val acc')
-plt.legend()
-plt.show()
-#plt.savefig('AccVal_acc')
 
 MyModel.save('F:/spycodes/MyModel.h5')
 
